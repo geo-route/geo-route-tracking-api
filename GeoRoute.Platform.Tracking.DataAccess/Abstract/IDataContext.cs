@@ -7,5 +7,5 @@ public interface IDataContext : IDisposable
 {
 
     [ProcedureName("TrackingApi_SelectMeasurements")]
-    Task<IEnumerable<Measurement>> GetMetricAsync(string slug);
+    IEnumerable<Measurement> GetMeasurements(int sourceId, int metricId, DateTime start, DateTime end);
 }

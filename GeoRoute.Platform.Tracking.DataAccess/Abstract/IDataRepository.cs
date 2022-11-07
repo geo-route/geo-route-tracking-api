@@ -1,5 +1,5 @@
 ﻿using GeoRoute.Platform.Tracking.Data.Dto;
-using Measurement = GeoRoute.Platform.Tracking.Data.Ingress.Measurement;
+using GeoRoute.Platform.Tracking.Data.Egress;
 
 namespace GeoRoute.Platform.Tracking.DataAccess.Abstract;
 

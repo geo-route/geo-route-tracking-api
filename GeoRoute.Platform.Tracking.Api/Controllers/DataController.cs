@@ -1,4 +1,7 @@
-﻿using GeoRoute.Platform.Tracking.DataAccess.Abstract;
+﻿using GeoRoute.Platform.Tracking.Data.Dto;
+using GeoRoute.Platform.Tracking.Data.Egress;
+using GeoRoute.Platform.Tracking.DataAccess.Abstract;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace GeoRoute.Platform.Tracking.Api.Controllers;
@@ -8,24 +11,29 @@ namespace GeoRoute.Platform.Tracking.Api.Controllers;
 public class DataController : BaseController
 {
     private readonly ILogger<IngressController> _logger;
+    private readonly IDataRepository _dataRepository;
 
-    public DataController(ITrackingRepository repository, ILogger<IngressController> logger) : base(repository)
+    public DataController(IDataRepository dataRepository, ITrackingRepository trackingRepository, ILogger<IngressController> logger) : base(trackingRepository)
     {
         this._logger = logger;
+        this._dataRepository = dataRepository;
     }
 
-    [HttpGet]
-    public async Task<IActionResult> GetAsync([FromRoute] int sourceId, [FromRoute] string metric,
-                                              [FromRoute] DateTime? start, [FromRoute] DateTime? end)
+    [HttpGet("sources/{source}/metrics/{metric}/measurements")]
+    public async Task<IActionResult> GetAsync([FromRoute] int source, [FromRoute] string metric, [FromQuery] DateTime? start, [FromQuery] DateTime? end)
     {
-        start ??= DateTime.MinValue;
+	    start ??= new DateTime(1800, 1, 1, 0, 0, 0, DateTimeKind.Utc);
         end ??= DateTime.MaxValue;
 
-        var source = await this.GetSourceAsync(sourceId);
+        var measurementSource = await this.GetSourceAsync(source);
         var measurementMetric = await this.GetMetric(metric);
+        this._logger.LogInformation("Loading {metricName} from {sourceName} between {start} and {end}", measurementMetric.Name, measurementSource.Name, start, end);
 
+        var results = this._dataRepository.GetMeasurements(measurementSource, measurementMetric, start.GetValueOrDefault(), end.GetValueOrDefault());
 
-
-        return this.Ok();
+        return this.Ok(new HttpResult<IEnumerable<Measurement>> {
+	        Data = results,
+            Id = this.GetRequestId()
+        });
     }
 }

@@ -15,10 +15,9 @@ public class IngressController : BaseController
 {
     private readonly ILogger<IngressController> _logger;
 
-    public IngressController(ITrackingRepository repository, ILogger<IngressController> logger)
+    public IngressController(ITrackingRepository repository, ILogger<IngressController> logger) : base(repository)
     {
         this._logger = logger;
-        this._trackingRepository = repository;
     }
 
     [HttpPost("location")]
@@ -33,11 +32,6 @@ public class IngressController : BaseController
             Data = "Location has been accepted",
             Id = id
         });
-    }
-
-    private Guid GetRequestId()
-    {
-        return (Guid)this.HttpContext.Items["RequestId"]!;
     }
 
     private async Task InternalCreateLocationLogAsync(ApproximateLocation approximateLocation)
