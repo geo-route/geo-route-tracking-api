@@ -20,7 +20,7 @@ public sealed class SynchronousInterceptor : BaseInterceptor, IDisposable
 
     public override void Intercept(IInvocation invocation)
     {
-        if (invocation.Method.Name == "Dispose") {
+        if(invocation.Method.Name == "Dispose") {
             this.Dispose();
         } else {
             this.InternalIntercept(invocation);
@@ -35,7 +35,7 @@ public sealed class SynchronousInterceptor : BaseInterceptor, IDisposable
         var arguments = invocation.Arguments.Length > 0 ? new object[invocation.Arguments.Length * 2] : null;
         var method = this.BuildMethodCall(invocation, arguments);
 
-        if (HasTargetReturnType(invocation)) {
+        if(HasTargetReturnType(invocation)) {
             invocation.ReturnValue = method.Invoke(this._spCaller, new object[] { procedureName, arguments });
         } else {
             method.Invoke(this._spCaller, new object[] { procedureName, arguments });
@@ -46,13 +46,13 @@ public sealed class SynchronousInterceptor : BaseInterceptor, IDisposable
     {
         MethodInfo method;
 
-        if (HasTargetReturnType(invocation)) {
+        if(HasTargetReturnType(invocation)) {
             method = this.CreateTargetMethodWithReturnType(invocation);
         } else {
             method = this._spCaller.GetType().GetMethod(nameof(this._spCaller.ExecuteStoredProcedure));
         }
 
-        if (method == null) {
+        if(method == null) {
             throw new InvalidOperationException("No target method has been found");
         }
 
@@ -68,7 +68,7 @@ public sealed class SynchronousInterceptor : BaseInterceptor, IDisposable
     {
         MethodInfo method;
 
-        if (typeof(IEnumerable).IsAssignableFrom(invocation.Method.ReturnType)) {
+        if(typeof(IEnumerable).IsAssignableFrom(invocation.Method.ReturnType)) {
             method = this._spCaller.GetType()
                 .GetMethod(nameof(this._spCaller.Stream))?
                 .MakeGenericMethod(invocation.Method.ReturnType.GenericTypeArguments[0]);
@@ -84,14 +84,14 @@ public sealed class SynchronousInterceptor : BaseInterceptor, IDisposable
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private void CheckDisposed()
     {
-        if (this._disposed) {
+        if(this._disposed) {
             throw new ObjectDisposedException(nameof(SynchronousInterceptor));
         }
     }
 
     public void Dispose()
     {
-        if (this._disposed) {
+        if(this._disposed) {
             return;
         }
 

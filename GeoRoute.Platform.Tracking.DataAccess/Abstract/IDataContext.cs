@@ -5,7 +5,7 @@ namespace GeoRoute.Platform.Tracking.DataAccess.Abstract;
 
 public interface IDataContext : IDisposable
 {
-	
+
     [ProcedureName("TrackingApi_SelectMeasurements")]
     Task<IEnumerable<Measurement>> GetMetricAsync(string slug);
 }

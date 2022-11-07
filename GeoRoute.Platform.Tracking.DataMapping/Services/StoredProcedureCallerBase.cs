@@ -45,7 +45,7 @@ public abstract class StoredProcedureCallerBase : IDisposable
         cmd.CommandType = CommandType.Text;
 
         using var reader = cmd.ExecuteReader();
-        while (reader.Read()) { }
+        while(reader.Read()) { }
 
         return reader.GetSchemaTable();
     }
@@ -58,7 +58,7 @@ public abstract class StoredProcedureCallerBase : IDisposable
         foreach(DataRow row in data.Rows) {
             var entry = new TvpMetaData {
                 Order = idx++,
-                ColumnName = (string) row["ColumnName"]
+                ColumnName = (string)row["ColumnName"]
             };
             metaData.Add(entry);
         }
@@ -104,7 +104,7 @@ public abstract class StoredProcedureCallerBase : IDisposable
     private DynamicParameters CreateEnumerableParameterBag(IReadOnlyList<object> args)
     {
         var builder = new TvpArgumentBuilder();
-        var enumerable = (IEnumerable) args[1];
+        var enumerable = (IEnumerable)args[1];
         var type = enumerable.GetType().GenericTypeArguments[0];
         var name = GetTvpNameFromType(type);
         var data = this.GetMetaData(name);

@@ -8,9 +8,9 @@ public static class MethodInfoExtensions
 {
     public static async Task<object> InvokeAsync(this MethodInfo methodInfo, object obj, params object[] parameters)
     {
-        var awaitableObject = (Task?) methodInfo.Invoke(obj, parameters);
+        var awaitableObject = (Task?)methodInfo.Invoke(obj, parameters);
 
-        if (awaitableObject == null) {
+        if(awaitableObject == null) {
             throw new InvalidOperationException("Method is not awaitable");
         }
 

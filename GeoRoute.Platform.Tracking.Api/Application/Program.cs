@@ -40,7 +40,7 @@ public class Program
                 builder.ClearProviders();
                 builder.AddSerilog();
 
-                if (context.HostingEnvironment.IsDevelopment() || context.HostingEnvironment.IsStaging()) {
+                if(context.HostingEnvironment.IsDevelopment() || context.HostingEnvironment.IsStaging()) {
                     builder.AddDebug();
                 }
             })

@@ -7,10 +7,10 @@ namespace GeoRoute.Platform.Tracking.DataMapping.Attributes;
 [AttributeUsage(AttributeTargets.Method)]
 public class ProcedureNameAttribute : Attribute
 {
-	public string Name { get; }
+    public string Name { get; }
 
-	public ProcedureNameAttribute(string name)
-	{
-		this.Name = name;
-	}
+    public ProcedureNameAttribute(string name)
+    {
+        this.Name = name;
+    }
 }

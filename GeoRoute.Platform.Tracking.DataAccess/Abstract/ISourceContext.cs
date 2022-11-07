@@ -5,7 +5,7 @@ namespace GeoRoute.Platform.Tracking.DataAccess.Abstract;
 
 public interface ISourceContext : IDisposable
 {
-    
+
     [ProcedureName("TrackingApi_SelectSourceById")]
     Task<Source?> GetSourceAsync(int sourceId);
 }

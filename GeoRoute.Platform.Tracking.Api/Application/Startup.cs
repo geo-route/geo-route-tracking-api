@@ -61,7 +61,7 @@ public class Startup
         app.UseForwardedHeaders();
         app.UseRouting();
 
-        if (env.IsDevelopment()) {
+        if(env.IsDevelopment()) {
             app.UseDeveloperExceptionPage();
         }
     }
@@ -87,7 +87,7 @@ public class Startup
     {
         var schema = OpenApiSchema.Http;
 
-        if (host.Contains("https")) {
+        if(host.Contains("https")) {
             schema = OpenApiSchema.Https;
         }
 

@@ -23,7 +23,7 @@ public class TrackingRepository : ITrackingRepository
     {
         var source = await this._sources.GetSourceAsync(id).ConfigureAwait(false);
 
-        if (source == null) {
+        if(source == null) {
             throw new InvalidOperationException($"Source with ID {id} does not exist");
         }
 
@@ -54,14 +54,14 @@ public class TrackingRepository : ITrackingRepository
 
     public async ValueTask<decimal> ComputeAverageAsync(AverageAggregateRequest request)
     {
-	    var result = request.Interval switch {
-		    GroupingInterval.Day => throw new ArgumentOutOfRangeException(),
-		    GroupingInterval.Hour => await this._measurements.ComputeAverageByHourAsync(request.Source.Id, request.Metric.Id),
-		    GroupingInterval.Minute => throw new ArgumentOutOfRangeException(),
-		    GroupingInterval.Second => throw new ArgumentOutOfRangeException(),
-		    _ => throw new ArgumentOutOfRangeException()
-	    };
+        var result = request.Interval switch {
+            GroupingInterval.Day => throw new ArgumentOutOfRangeException(),
+            GroupingInterval.Hour => await this._measurements.ComputeAverageByHourAsync(request.Source.Id, request.Metric.Id),
+            GroupingInterval.Minute => throw new ArgumentOutOfRangeException(),
+            GroupingInterval.Second => throw new ArgumentOutOfRangeException(),
+            _ => throw new ArgumentOutOfRangeException()
+        };
 
-	    return result.AverageValue;
+        return result.AverageValue;
     }
 }

@@ -17,7 +17,7 @@ public abstract class BaseInterceptor : IInterceptor
         var method = this.CreateTargetMethod(invocation);
         var parameters = invocation.Method.GetParameters();
 
-        for (var index = 0; index < parameters.Length; index++) {
+        for(var index = 0; index < parameters.Length; index++) {
             var name = index * 2;
             var value = index * 2 + 1;
 
@@ -36,11 +36,11 @@ public abstract class BaseInterceptor : IInterceptor
         var attr = invocation.Method.GetCustomAttribute<ProcedureNameAttribute>();
         var name = invocation.Method.Name;
 
-        if (attr == null) {
+        if(attr == null) {
             return name;
         }
 
-        if (!string.IsNullOrEmpty(attr.Name)) {
+        if(!string.IsNullOrEmpty(attr.Name)) {
             name = attr.Name;
         }
 
@@ -51,7 +51,7 @@ public abstract class BaseInterceptor : IInterceptor
     {
         var argumentValue = invocation.Arguments[index];
 
-        if (argumentValue is IEnumerable enumType && !(argumentValue is string)) {
+        if(argumentValue is IEnumerable enumType && !(argumentValue is string)) {
             var toList = typeof(Enumerable).GetMethod("ToList");
             var genericType = GetGenericTypeFromEnumerable(parameters[index]);
             var genericToList = toList?.MakeGenericMethod(genericType);
@@ -66,7 +66,7 @@ public abstract class BaseInterceptor : IInterceptor
     {
         var genericArguments = info.ParameterType.GenericTypeArguments;
 
-        if (genericArguments.Length == 0) {
+        if(genericArguments.Length == 0) {
             throw new ArgumentException("Type has no generic arguments", nameof(info));
         }
 

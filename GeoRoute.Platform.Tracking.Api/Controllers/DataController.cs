@@ -18,14 +18,14 @@ public class DataController : BaseController
     public async Task<IActionResult> GetAsync([FromRoute] int sourceId, [FromRoute] string metric,
                                               [FromRoute] DateTime? start, [FromRoute] DateTime? end)
     {
-	    start ??= DateTime.MinValue;
-	    end ??= DateTime.MaxValue;
+        start ??= DateTime.MinValue;
+        end ??= DateTime.MaxValue;
 
-	    var source = await this.GetSourceAsync(sourceId);
-	    var measurementMetric = await this.GetMetric(metric);
+        var source = await this.GetSourceAsync(sourceId);
+        var measurementMetric = await this.GetMetric(metric);
 
 
 
-	    return this.Ok();
+        return this.Ok();
     }
 }

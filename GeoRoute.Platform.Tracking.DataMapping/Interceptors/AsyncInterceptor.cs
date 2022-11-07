@@ -27,7 +27,7 @@ public sealed class AsyncInterceptor : BaseInterceptor, IDisposable
     {
         this.CheckDisposed();
 
-        if (invocation.Method.Name == "Dispose") {
+        if(invocation.Method.Name == "Dispose") {
             this.Dispose();
         } else {
             this.InternalIntercept(invocation);
@@ -38,7 +38,7 @@ public sealed class AsyncInterceptor : BaseInterceptor, IDisposable
     {
         var returnTypeGenericArguments = invocation.Method.ReturnType.GetGenericArguments();
 
-        if (returnTypeGenericArguments.Length > 0) {
+        if(returnTypeGenericArguments.Length > 0) {
             this.InterceptGenericCall(invocation);
         } else {
             this.InterceptCall(invocation);
@@ -52,7 +52,7 @@ public sealed class AsyncInterceptor : BaseInterceptor, IDisposable
         invocation.ReturnValue = tcs.Task;
 
         this.InterceptAsync(invocation).ContinueWith(task => {
-            if (task.IsFaulted) {
+            if(task.IsFaulted) {
                 tcs.SetException(task.Exception?.InnerException ?? new InvalidOperationException("Unable to complete the operation"));
             } else {
                 tcs.SetResult();
@@ -69,31 +69,31 @@ public sealed class AsyncInterceptor : BaseInterceptor, IDisposable
         invocation.ReturnValue = taskSourceType.GetProperty("Task")?.GetValue(tcs, null);
 
         this.InterceptAsync(invocation).ContinueWith(task => {
-	        InternalInterceptGenericCall(invocation, task, taskSourceType, tcs);
+            InternalInterceptGenericCall(invocation, task, taskSourceType, tcs);
         });
     }
 
     private static void InternalInterceptGenericCall(IInvocation invocation, Task<object> task, Type taskSourceType, object? tcs)
     {
-	    var returnTypeGenericArguments = invocation.Method.ReturnType.GetGenericArguments();
+        var returnTypeGenericArguments = invocation.Method.ReturnType.GetGenericArguments();
 
-	    if(task.IsFaulted) {
-		    var method = taskSourceType.GetMethod("SetException", new[] {typeof(Exception)});
-		    method?.Invoke(tcs, new object[] {task.Exception?.InnerException!});
-	    } else {
-		    SetGenericResults(task, taskSourceType, tcs, returnTypeGenericArguments[0]);
-	    }
+        if(task.IsFaulted) {
+            var method = taskSourceType.GetMethod("SetException", new[] { typeof(Exception) });
+            method?.Invoke(tcs, new object[] { task.Exception?.InnerException! });
+        } else {
+            SetGenericResults(task, taskSourceType, tcs, returnTypeGenericArguments[0]);
+        }
     }
 
     private static void SetGenericResults(Task<object> task, Type taskSourceType, object? tcs, Type returnType)
     {
-	    var result = task.Result;
+        var result = task.Result;
 
-	    if(result.GetType() == returnType) {
-		    taskSourceType.GetMethod("SetResult")?.Invoke(tcs, new[] {result});
-	    } else {
-		    taskSourceType.GetMethod("SetResult")?.Invoke(tcs, new object?[] {null});
-	    }
+        if(result.GetType() == returnType) {
+            taskSourceType.GetMethod("SetResult")?.Invoke(tcs, new[] { result });
+        } else {
+            taskSourceType.GetMethod("SetResult")?.Invoke(tcs, new object?[] { null });
+        }
     }
 
     protected override MethodInfo CreateTargetMethod(IInvocation invocation)
@@ -101,13 +101,13 @@ public sealed class AsyncInterceptor : BaseInterceptor, IDisposable
         MethodInfo? method;
         var genericTypeArguments = invocation.Method.ReturnType.GetGenericArguments();
 
-        if (genericTypeArguments.Length > 0) {
+        if(genericTypeArguments.Length > 0) {
             method = this.CreateTargetMethodWithReturn(genericTypeArguments);
         } else {
             method = this._spCaller.GetType().GetMethod(nameof(this._spCaller.ExecuteQueryAsync));
         }
 
-        if (method == null) {
+        if(method == null) {
             throw new InvalidOperationException("No target method has been found");
         }
 
@@ -118,7 +118,7 @@ public sealed class AsyncInterceptor : BaseInterceptor, IDisposable
     {
         MethodInfo? method;
 
-        if (typeof(IEnumerable).IsAssignableFrom(genericTypeArguments[0])) {
+        if(typeof(IEnumerable).IsAssignableFrom(genericTypeArguments[0])) {
             var enumerableTypeArgument = genericTypeArguments[0].GenericTypeArguments[0];
             method = this._spCaller.GetType()
                 .GetMethod(nameof(this._spCaller.QueryAsync))?
@@ -129,7 +129,7 @@ public sealed class AsyncInterceptor : BaseInterceptor, IDisposable
                 .MakeGenericMethod(genericTypeArguments[0]);
         }
 
-        if (method == null) {
+        if(method == null) {
             throw new InvalidOperationException("Method not found");
         }
 
@@ -149,14 +149,14 @@ public sealed class AsyncInterceptor : BaseInterceptor, IDisposable
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private void CheckDisposed()
     {
-        if (this._disposed) {
+        if(this._disposed) {
             throw new ObjectDisposedException(nameof(AsyncInterceptor));
         }
     }
 
     public void Dispose()
     {
-        if (this._disposed) {
+        if(this._disposed) {
             return;
         }
 

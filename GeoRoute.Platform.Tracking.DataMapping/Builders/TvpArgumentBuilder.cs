@@ -68,7 +68,7 @@ public class TvpArgumentBuilder
             this.AddTvpColumn(type, data.ColumnName);
         }
 
-        foreach (var obj in enumerable) {
+        foreach(var obj in enumerable) {
             this.AddTvpRow(obj);
         }
     }
@@ -116,10 +116,10 @@ public class TvpArgumentBuilder
             throw new InvalidOperationException($"Unable to find property \"{metaData}\" in {type.Name}");
         }
 
-        if (propertyInfo.PropertyType.GenericTypeArguments.Length > 0 && propertyInfo.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>)) {
+        if(propertyInfo.PropertyType.GenericTypeArguments.Length > 0 && propertyInfo.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>)) {
             var underlyingType = Nullable.GetUnderlyingType(propertyInfo.PropertyType);
 
-            if (underlyingType == null) {
+            if(underlyingType == null) {
                 throw new InvalidOperationException("Nullable property has no underlying type.");
             }
 
@@ -132,11 +132,11 @@ public class TvpArgumentBuilder
 
     private void CheckType(Type? type)
     {
-        if (type == null) {
+        if(type == null) {
             throw new ArgumentNullException(nameof(type));
         }
 
-        foreach (var metaData in this._metaData.Select(x => x.ColumnName)) {
+        foreach(var metaData in this._metaData.Select(x => x.ColumnName)) {
             var propertyInfo = type.GetProperty(metaData, BindingFlags.Instance | BindingFlags.Public);
 
             if(propertyInfo == null) {

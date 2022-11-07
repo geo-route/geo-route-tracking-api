@@ -12,39 +12,39 @@ public class BaseController : Controller
 
     protected BaseController(ITrackingRepository repository)
     {
-	    this._trackingRepository = repository;
+        this._trackingRepository = repository;
     }
 
     protected async Task<Source> GetSourceAsync(int id)
     {
-	    var source = await this._trackingRepository.GetSourceAsync(id).ConfigureAwait(false);
+        var source = await this._trackingRepository.GetSourceAsync(id).ConfigureAwait(false);
 
-	    if(source == null) {
-		    throw new InvalidInputException("Source not found!", HttpStatusCode.UnprocessableEntity);
-	    }
+        if(source == null) {
+            throw new InvalidInputException("Source not found!", HttpStatusCode.UnprocessableEntity);
+        }
 
-	    return source;
+        return source;
     }
 
     protected async Task<Metric> GetDirectionalMetric()
     {
-	    var metric = await this._trackingRepository.GetMetricAsync("proximity").ConfigureAwait(false);
+        var metric = await this._trackingRepository.GetMetricAsync("proximity").ConfigureAwait(false);
 
-	    if(metric == null) {
-		    throw new InvalidInputException("Metric not found!", HttpStatusCode.InternalServerError);
-	    }
+        if(metric == null) {
+            throw new InvalidInputException("Metric not found!", HttpStatusCode.InternalServerError);
+        }
 
-	    return metric;
+        return metric;
     }
 
     protected async Task<Metric> GetMetric(string slug)
     {
-	    var metric = await this._trackingRepository.GetMetricAsync(slug).ConfigureAwait(false);
+        var metric = await this._trackingRepository.GetMetricAsync(slug).ConfigureAwait(false);
 
-	    if(metric == null) {
-		    throw new InvalidInputException("Metric not found!", HttpStatusCode.InternalServerError);
-	    }
+        if(metric == null) {
+            throw new InvalidInputException("Metric not found!", HttpStatusCode.InternalServerError);
+        }
 
-	    return metric;
+        return metric;
     }
 }

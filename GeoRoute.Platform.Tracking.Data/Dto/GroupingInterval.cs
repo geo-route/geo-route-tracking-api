@@ -2,7 +2,7 @@
 
 public enum GroupingInterval
 {
-	Day,
+    Day,
     Hour,
     Minute,
     Second
