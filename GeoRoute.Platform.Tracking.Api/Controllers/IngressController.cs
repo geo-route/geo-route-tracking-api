@@ -11,10 +11,9 @@ namespace GeoRoute.Platform.Tracking.Api.Controllers;
 
 [ApiController]
 [Route("geo-route/tracking/[controller]")]
-public class IngressController : Controller
+public class IngressController : BaseController 
 {
     private readonly ILogger<IngressController> _logger;
-    private readonly ITrackingRepository _trackingRepository;
 
     public IngressController(ITrackingRepository repository, ILogger<IngressController> logger)
     {
@@ -68,27 +67,5 @@ public class IngressController : Controller
         this._logger.LogInformation("Logging {metricName} from {sourceName}", metric.Name, source.Name);
 
 	    await this._trackingRepository.CreateMeasurementAsync(measurement).ConfigureAwait(false);
-    }
-
-    private async Task<Source> GetSourceAsync(int id)
-    {
-	    var source = await this._trackingRepository.GetSourceAsync(id).ConfigureAwait(false);
-
-	    if(source == null) {
-		    throw new InvalidInputException("Source not found!", HttpStatusCode.UnprocessableEntity);
-	    }
-
-	    return source;
-    }
-
-    private async Task<Metric> GetDirectionalMetric()
-    {
-	    var metric = await this._trackingRepository.GetMetricAsync("proximity").ConfigureAwait(false);
-
-	    if(metric == null) {
-		    throw new InvalidInputException("Metric not found!", HttpStatusCode.InternalServerError);
-	    }
-
-	    return metric;
     }
 }
