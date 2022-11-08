@@ -12,6 +12,7 @@
     <Company>Scouting Petrus en Paulus</Company>
     <Authors>Scouting Petrus en Paulus</Authors>
     <Product>GeoRoute Tracking API</Product>
+    <AssemblyName>tracking-api</AssemblyName>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Release'">

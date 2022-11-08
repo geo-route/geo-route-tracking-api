@@ -15,4 +15,4 @@ EXPOSE 80
 EXPOSE 81
 EXPOSE 8080
 WORKDIR /app
-ENTRYPOINT ["/app/GeoRoute.Platform.Tracking.Api"]
+ENTRYPOINT ["/app/tracking-api"]
