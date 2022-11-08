@@ -1,0 +1,57 @@
+name: Docker
+
+on:
+  push:
+      # Publish `master` as Docker `latest` image.
+      branches:
+        - master
+        - develop
+      # Publish `v1.2.3` tags as releases.
+      tags:
+        - v*
+env:
+  IMAGE_NAME: tracking-api
+  IMAGE_ID: georoute/tracking-api
+  DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+  BASE_PATH: GeoRoute.Platform.Tracking.Api
+
+jobs:
+  push-tracking-api:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build image
+        run: |
+          docker build . --file $BASE_PATH/Dockerfile --tag $IMAGE_NAME
+
+      - name: Log into registry
+        run: echo "$DOCKER_PASSWORD" | docker login -u $DOCKER_USERNAME --password-stdin
+
+      - name: Get assembly version
+        run: |
+          PROJ=$BASE_PATH/GeoRoute.Platform.Tracking.Api.csproj
+          VERSION=$(pwsh -command "Scripts/Get-AssemblyVersion.ps1 $PROJ")
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: Check DockerHub
+        run: |
+          DOCKERTAG=$(pwsh -command "Scripts/Check-DockerTag.ps1 $IMAGE_ID $VERSION")
+          echo "TAG=$DOCKERTAG" >> $GITHUB_ENV
+
+      - name: Push staging image
+        if: ${{ github.ref == 'refs/heads/develop' }}
+        run: |
+          docker tag $IMAGE_NAME $IMAGE_ID:staging
+          docker push $IMAGE_ID:staging
+   
+      - name: Push image
+        if: ${{ env.TAG != 'exists' && (github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/v')) }}
+        run: |
+          [[ "${{ github.ref }}" == "refs/tags/"* ]] && docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
+          [[ "${{ github.ref }}" == "refs/tags/"* ]] && docker push $IMAGE_ID:$VERSION
+
+          docker tag $IMAGE_NAME $IMAGE_ID:latest
+          docker push $IMAGE_ID:latest

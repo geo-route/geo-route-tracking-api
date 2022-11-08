@@ -2,7 +2,7 @@ root = true
 
 [*.{c,c++,cc,cp,cpp,cs,cu,cuh,cxx,h,hh,hpp,hxx,inc,inl,ino,ipp,mpp,proto,tpp}]
 indent_style=space
-indent_size=tab
+indent_size=space
 tab_width=4
 end_of_line=crlf
 
