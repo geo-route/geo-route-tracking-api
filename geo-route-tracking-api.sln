@@ -7,9 +7,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeoRoute.Platform.Tracking.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeoRoute.Platform.Tracking.DataMapping", "GeoRoute.Platform.Tracking.DataMapping\GeoRoute.Platform.Tracking.DataMapping.csproj", "{DF18F05F-F814-479E-AB92-9B1AAD2DD9CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoRoute.Platform.Tracking.Data", "GeoRoute.Platform.Tracking.Data\GeoRoute.Platform.Tracking.Data.csproj", "{4E2E6516-242F-4BE1-B4ED-168E3161B1D8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeoRoute.Platform.Tracking.Data", "GeoRoute.Platform.Tracking.Data\GeoRoute.Platform.Tracking.Data.csproj", "{4E2E6516-242F-4BE1-B4ED-168E3161B1D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoRoute.Platform.Tracking.DataAccess", "GeoRoute.Platform.Tracking.DataAccess\GeoRoute.Platform.Tracking.DataAccess.csproj", "{58B0DB02-6914-4E9F-9540-D4B4D4D30FA5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeoRoute.Platform.Tracking.DataAccess", "GeoRoute.Platform.Tracking.DataAccess\GeoRoute.Platform.Tracking.DataAccess.csproj", "{58B0DB02-6914-4E9F-9540-D4B4D4D30FA5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A64DBD21-1505-4C70-AD44-EC7DC06BD7D8}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitignore = .gitignore
+		CHANGELOG.md = CHANGELOG.md
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

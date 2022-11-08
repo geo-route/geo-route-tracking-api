@@ -31,7 +31,7 @@ public class BaseController : Controller
         return (Guid)this.HttpContext.Items["RequestId"]!;
     }
 
-    protected async Task<Metric> GetDirectionalMetric()
+    protected async Task<Metric> GetDirectionalMetricAsync()
     {
         var metric = await this._trackingRepository.GetMetricAsync("proximity").ConfigureAwait(false);
 
@@ -42,7 +42,7 @@ public class BaseController : Controller
         return metric;
     }
 
-    protected async Task<Metric> GetMetric(string slug)
+    protected async Task<Metric> GetMetricAsync(string slug)
     {
         var metric = await this._trackingRepository.GetMetricAsync(slug).ConfigureAwait(false);
 

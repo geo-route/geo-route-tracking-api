@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+
 using Castle.DynamicProxy;
 using GeoRoute.Platform.Tracking.DataMapping.Abstract;
 
@@ -32,7 +33,7 @@ public sealed class SynchronousInterceptor : BaseInterceptor, IDisposable
         this.CheckDisposed();
         var procedureName = GetProcedureName(invocation);
 
-        var arguments = invocation.Arguments.Length > 0 ? new object[invocation.Arguments.Length * 2] : null;
+        var arguments = invocation.Arguments.Length > 0 ? new object[invocation.Arguments.Length * 2] : Array.Empty<object>();
         var method = this.BuildMethodCall(invocation, arguments);
 
         if(HasTargetReturnType(invocation)) {
@@ -44,7 +45,7 @@ public sealed class SynchronousInterceptor : BaseInterceptor, IDisposable
 
     protected override MethodInfo CreateTargetMethod(IInvocation invocation)
     {
-        MethodInfo method;
+        MethodInfo? method;
 
         if(HasTargetReturnType(invocation)) {
             method = this.CreateTargetMethodWithReturnType(invocation);
@@ -66,7 +67,7 @@ public sealed class SynchronousInterceptor : BaseInterceptor, IDisposable
 
     private MethodInfo CreateTargetMethodWithReturnType(IInvocation invocation)
     {
-        MethodInfo method;
+        MethodInfo? method;
 
         if(typeof(IEnumerable).IsAssignableFrom(invocation.Method.ReturnType)) {
             method = this._spCaller.GetType()
@@ -76,6 +77,10 @@ public sealed class SynchronousInterceptor : BaseInterceptor, IDisposable
             method = this._spCaller.GetType()
                 .GetMethod(nameof(this._spCaller.QueryFirst))?
                 .MakeGenericMethod(invocation.Method.ReturnType);
+        }
+
+        if(method == null) {
+            throw new InvalidOperationException("No target method has been found");
         }
 
         return method;

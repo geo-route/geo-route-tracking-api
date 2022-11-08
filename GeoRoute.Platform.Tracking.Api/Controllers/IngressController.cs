@@ -21,7 +21,7 @@ public class IngressController : BaseController
     }
 
     [HttpPost("location")]
-    public async Task<IActionResult> CreateLocationLog([FromBody] ApproximateLocation approximateLocation)
+    public async Task<IActionResult> CreateLocationLogAsync([FromBody] ApproximateLocation approximateLocation)
     {
         var id = this.GetRequestId();
 
@@ -37,7 +37,7 @@ public class IngressController : BaseController
     private async Task InternalCreateLocationLogAsync(ApproximateLocation approximateLocation)
     {
         var sourceTask = this.GetSourceAsync(approximateLocation.SourceId);
-        var metricTask = this.GetDirectionalMetric();
+        var metricTask = this.GetDirectionalMetricAsync();
 
         if(approximateLocation.Location == null) {
             this._logger.LogError("Unable to create measurement: location was not provided");

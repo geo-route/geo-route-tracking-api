@@ -51,7 +51,7 @@ public abstract class BaseInterceptor : IInterceptor
     {
         var argumentValue = invocation.Arguments[index];
 
-        if(argumentValue is IEnumerable enumType && !(argumentValue is string)) {
+        if(argumentValue is IEnumerable enumType and not string) {
             var toList = typeof(Enumerable).GetMethod("ToList");
             var genericType = GetGenericTypeFromEnumerable(parameters[index]);
             var genericToList = toList?.MakeGenericMethod(genericType);

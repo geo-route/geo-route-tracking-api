@@ -20,13 +20,14 @@ public class DataController : BaseController
     }
 
     [HttpGet("sources/{source}/metrics/{metric}/measurements")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Maintainability", "AV1568:Parameter value should not be overwritten in method body", Justification = "Default value.")]
     public async Task<IActionResult> GetAsync([FromRoute] int source, [FromRoute] string metric, [FromQuery] DateTime? start, [FromQuery] DateTime? end)
     {
 	    start ??= new DateTime(1800, 1, 1, 0, 0, 0, DateTimeKind.Utc);
         end ??= DateTime.MaxValue;
 
         var measurementSource = await this.GetSourceAsync(source);
-        var measurementMetric = await this.GetMetric(metric);
+        var measurementMetric = await this.GetMetricAsync(metric);
         this._logger.LogInformation("Loading {metricName} from {sourceName} between {start} and {end}", measurementMetric.Name, measurementSource.Name, start, end);
 
         var results = this._dataRepository.GetMeasurements(measurementSource, measurementMetric, start.GetValueOrDefault(), end.GetValueOrDefault());

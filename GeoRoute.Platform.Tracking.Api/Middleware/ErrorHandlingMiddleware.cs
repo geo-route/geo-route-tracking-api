@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 using GeoRoute.Platform.Tracking.Data.Dto;
+using JetBrains.Annotations;
 
 namespace GeoRoute.Platform.Tracking.Api.Middleware;
 
@@ -14,6 +15,9 @@ public class ErrorResponseMiddleware
         this._logger = logger;
     }
 
+    [UsedImplicitly]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "AV1755:Name of async method should end with Async or TaskAsync", Justification = "Interface method.")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Miscellaneous Design", "AV1210:Catch a specific exception instead of Exception, SystemException or ApplicationException", Justification = "Logging and error handling")]
     public async Task Invoke(HttpContext ctx)
     {
         try {
