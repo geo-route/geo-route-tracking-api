@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace GeoRoute.Platform.Tracking.Api.Controllers;
 
 [ApiController]
-[Route("geo-route/tracking/[controller]")]
+[Route("geo-route/v1/tracking/[controller]")]
 public class IngressController : BaseController
 {
     private readonly ILogger<IngressController> _logger;
@@ -59,7 +59,6 @@ public class IngressController : BaseController
         };
 
         this._logger.LogInformation("Logging {metricName} from {sourceName}", metric.Name, source.Name);
-
         await this._trackingRepository.CreateMeasurementAsync(measurement).ConfigureAwait(false);
     }
 }

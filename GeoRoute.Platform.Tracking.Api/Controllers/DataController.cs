@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace GeoRoute.Platform.Tracking.Api.Controllers;
 
 [ApiController]
-[Route("geo-route/tracking/[controller]")]
+[Route("geo-route/v1/tracking/[controller]")]
 public class DataController : BaseController
 {
     private readonly ILogger<IngressController> _logger;
