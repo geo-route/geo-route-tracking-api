@@ -14,6 +14,7 @@ public static class ServiceCollectionExtensions
     {
         collection.AddScoped<ITrackingRepository, TrackingRepository>();
         collection.AddScoped<IDataRepository, DataRepository>();
+        collection.AddScoped<IWaypointRepository, WaypointRepository>();
     }
 
     public static void AddDatabaseContexts(this IServiceCollection collection, string connectionString)
@@ -21,6 +22,7 @@ public static class ServiceCollectionExtensions
         collection.AddScoped(_ => AsyncDynamicDataContext.Create<IMetricContext>(connectionString));
         collection.AddScoped(_ => AsyncDynamicDataContext.Create<ISourceContext>(connectionString));
         collection.AddScoped(_ => AsyncDynamicDataContext.Create<IMeasurementContext>(connectionString));
+        collection.AddScoped(_ => AsyncDynamicDataContext.Create<IWaypointContext>(connectionString));
         collection.AddScoped(_ => DynamicDataContext.Create<IDataContext>(connectionString));
     }
 }

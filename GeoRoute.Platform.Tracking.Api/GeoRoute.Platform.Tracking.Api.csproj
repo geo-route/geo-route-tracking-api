@@ -23,7 +23,7 @@
 
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
-    <NoWarn>1701;1702;AV1706;AV1008;IDE0057;AV1564;AV1580;AV1554;S1172</NoWarn>
+    <NoWarn>1701;1702;AV1706;AV1008;IDE0057;AV1564;AV1580;AV1554;S1172;AV1505</NoWarn>
     <WarningLevel>9999</WarningLevel>
   </PropertyGroup>
 
@@ -55,6 +55,11 @@
   <ItemGroup>
     <ProjectReference Include="..\GeoRoute.Platform.Tracking.DataAccess\GeoRoute.Platform.Tracking.DataAccess.csproj" />
     <ProjectReference Include="..\GeoRoute.Platform.Tracking.Data\GeoRoute.Platform.Tracking.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Abstract\" />
+    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>
