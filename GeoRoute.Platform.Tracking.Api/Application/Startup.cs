@@ -1,5 +1,7 @@
 ﻿using System.Text.Json;
+using GeoRoute.Platform.Tracking.Api.Abstract;
 using GeoRoute.Platform.Tracking.Api.Middleware;
+using GeoRoute.Platform.Tracking.Api.Services;
 using GeoRoute.Platform.Tracking.DataAccess.Extensions;
 using NSwag;
 
@@ -19,6 +21,7 @@ public class Startup
         services.AddHealthChecks();
         services.AddDatabaseContexts(this._config.GetConnectionString("GeoRoute"));
         services.AddRepositories();
+        services.AddSingleton<IGeoService, GeoService>();
 
         services.AddRouting(options => {
             options.LowercaseQueryStrings = true;
