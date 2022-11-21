@@ -2,26 +2,27 @@
 using GeoRoute.Platform.Tracking.Data.Dto;
 using GeoRoute.Platform.Tracking.Data.Egress;
 using GeoRoute.Platform.Tracking.DataAccess.Abstract;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace GeoRoute.Platform.Tracking.Api.Controllers;
 
 [ApiController]
 [Route("geo-route/v1/tracking/[controller]")]
-public sealed class RoutesController : BaseController
+public sealed class WaypointsController : BaseController
 {
-	private readonly ILogger<RoutesController> _logger;
+	private readonly ILogger<WaypointsController> _logger;
 	private readonly IWaypointRepository _repository;
 	private readonly IGeoService _geoService;
 
-	public RoutesController(IWaypointRepository waypointRepository, IGeoService geoService, ITrackingRepository repository, ILogger<RoutesController> logger) : base(repository)
+	public WaypointsController(IWaypointRepository waypointRepository, IGeoService geoService, ITrackingRepository repository, ILogger<WaypointsController> logger) : base(repository)
 	{
 		this._logger = logger;
 		this._geoService = geoService;
 		this._repository = waypointRepository;
 	}
 
-	[HttpPost("{id}/nearby/{id}")]
+	[HttpPost("{id}/nearby")]
 	public async Task<IActionResult> GetAsync([FromRoute] int id, [FromBody] Location location)
 	{
 		using var _ = this._logger.BeginScope(new Dictionary<string, object> { ["WaypointId"] = id, });
@@ -31,7 +32,7 @@ public sealed class RoutesController : BaseController
         var distance = this._geoService.GetDistance(wp.Coordinates, location);
         var isWithinProximity = Convert.ToDecimal(distance) > wp.MinimumProximity;
 
-        return this.Ok(CreateProximityResult(isWithinProximity));
+        return this.Ok(this.CreateProximityResult(isWithinProximity));
 	}
 
 	private HttpResult<ProximityResult> CreateProximityResult(bool success)
