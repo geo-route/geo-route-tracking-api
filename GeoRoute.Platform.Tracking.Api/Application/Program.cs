@@ -32,6 +32,12 @@ public static class Program
         return builder.Build();
     }
 
+    private static bool IsDevelopment()
+    {
+	    var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development";
+	    return env.ToUpperInvariant().Equals("DEVELOPMENT");
+    }
+
     private static IHostBuilder CreateHostBuilder(string[] args, IConfiguration conf)
     {
         return Host.CreateDefaultBuilder(args)
@@ -49,10 +55,14 @@ public static class Program
             })
 
 
-            .ConfigureWebHostDefaults(webBuilder => {
-                webBuilder.ConfigureKestrel(_ => {
-                })
-                    .UseStartup<Startup>();
-            });
+            .ConfigureWebHostDefaults(webBuilder => { webBuilder.ConfigureKestrel(opts => {
+	            if(!IsDevelopment()) {
+		            return;
+	            }
+
+	            var portText = webBuilder.GetSetting("ApiSettings:Port");
+	            var port = int.Parse(portText!);
+                opts.ListenAnyIP(port);
+            }).UseStartup<Startup>(); });
     }
 }
