@@ -1,3 +1,4 @@
+using System.Net;
 using System.Reflection;
 using Serilog;
 
@@ -62,7 +63,7 @@ public static class Program
 
 	            var portText = webBuilder.GetSetting("ApiSettings:Port");
 	            var port = int.Parse(portText!);
-                opts.ListenAnyIP(port);
+                opts.Listen(IPAddress.Any, port);
             }).UseStartup<Startup>(); });
     }
 }
