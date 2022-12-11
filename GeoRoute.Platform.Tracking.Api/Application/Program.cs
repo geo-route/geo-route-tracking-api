@@ -56,14 +56,10 @@ public static class Program
             })
 
 
-            .ConfigureWebHostDefaults(webBuilder => { webBuilder.ConfigureKestrel(opts => {
-	            if(!IsDevelopment()) {
-		            return;
-	            }
-
-	            var portText = webBuilder.GetSetting("ApiSettings:Port");
-	            var port = int.Parse(portText!);
-                opts.Listen(IPAddress.Any, port);
-            }).UseStartup<Startup>(); });
+            .ConfigureWebHostDefaults(webBuilder => {
+	            webBuilder.UseStartup<Startup>().UseKestrel(opts => {
+		            opts.ConfigureEndpoints();
+	            });
+            });
     }
 }
