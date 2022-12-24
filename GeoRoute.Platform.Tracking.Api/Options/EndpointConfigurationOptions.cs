@@ -1,4 +1,4 @@
-﻿namespace CM.Messaging.Smsl.CarrierMTRouter.Options;
+﻿namespace GeoRoute.Platform.Tracking.Api.Options;
 
 public class EndpointConfigurationOptions
 {

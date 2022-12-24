@@ -33,12 +33,6 @@ public static class Program
         return builder.Build();
     }
 
-    private static bool IsDevelopment()
-    {
-	    var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development";
-	    return env.ToUpperInvariant().Equals("DEVELOPMENT");
-    }
-
     private static IHostBuilder CreateHostBuilder(string[] args, IConfiguration conf)
     {
         return Host.CreateDefaultBuilder(args)
@@ -54,8 +48,6 @@ public static class Program
             .ConfigureAppConfiguration((_, config) => {
                 config.AddConfiguration(conf);
             })
-
-
             .ConfigureWebHostDefaults(webBuilder => {
 	            webBuilder.UseStartup<Startup>().UseKestrel(opts => {
 		            opts.ConfigureEndpoints();

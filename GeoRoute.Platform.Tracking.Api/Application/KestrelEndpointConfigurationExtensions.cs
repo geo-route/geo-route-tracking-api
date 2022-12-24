@@ -1,6 +1,6 @@
 ﻿using System.Net;
 using System.Security.Cryptography.X509Certificates;
-using CM.Messaging.Smsl.CarrierMTRouter.Options;
+using GeoRoute.Platform.Tracking.Api.Options;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Serilog;
 
